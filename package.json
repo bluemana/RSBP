@@ -7,8 +7,12 @@
     "eslint": "3.x",
     "htmlhint": "0.x"
   },
+  "dependencies": {
+    "bower": "^1.8.0"
+  },
   "bin": {
     "bootlint": "node_modules/.bin/bootlint",
+    "bower": "node_modules/.bin/bower",
     "eslint": "node_modules/.bin/eslint",
     "htmlhint": "node_modules/.bin/htmlhint"
   },
