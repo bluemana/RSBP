@@ -8,7 +8,8 @@
     "htmlhint": "0.x"
   },
   "dependencies": {
-    "bower": "^1.8.0"
+    "bower": "^1.8.0",
+    "express": "^4.15.2"
   },
   "bin": {
     "bootlint": "node_modules/.bin/bootlint",
@@ -17,7 +18,8 @@
     "htmlhint": "node_modules/.bin/htmlhint"
   },
   "scripts": {
+    "postinstall": "bower install",
     "lint": "eslint . && htmlhint . && bootlint app/pay.html",
-    "postinstall": "bower install"
+    "start": "NODE_PATH=./ node server/server.js"
   }
 }
