@@ -19,7 +19,7 @@
   },
   "scripts": {
     "postinstall": "bower install",
-    "lint": "eslint . && htmlhint . && bootlint app/pay.html",
+    "test": "eslint . && htmlhint . && bootlint app/pay.html",
     "start": "NODE_PATH=./ node server/server.js"
   }
 }
