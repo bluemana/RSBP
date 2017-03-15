@@ -8,8 +8,7 @@ const Config = require("server/config");
 // Log module status
 console.info("Setting up the server...");
 
-// Setup the server
-let app = Express();
+// Define the Express middleware
 let reqLogger = function (req, res, next) {
   console.info("Received request: " + req.method + " " + req.protocol + "://" + req.hostname + req.path);
   next();
@@ -19,9 +18,15 @@ let errLogger = function (err, req, res, next) {
   next();
 };
 
-// Configure the application
+// Setup the Express middleware
+let app = Express();
 app.use(reqLogger);
-app.use(Express.static("app"));
+app.use(Express.static(Config.get("usersDir"), {
+  fallthrough: true
+}));
+app.use("/:username", Express.static("app", {
+  fallthrough: false
+}));
 app.use(errLogger);
 
 // Listen to requests
