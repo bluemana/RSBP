@@ -3,6 +3,7 @@
 
 // Declare required modules
 const Express = require("express");
+const Config = require("server/config");
 
 // Log module status
 console.info("Setting up the server...");
@@ -24,7 +25,7 @@ app.use(Express.static("app"));
 app.use(errLogger);
 
 // Listen to requests
-let server = app.listen(3000, function (err) {
+let server = app.listen(Config.get("port"), function (err) {
   if (!err) {
     let host = server.address().address;
     let port = server.address().port;

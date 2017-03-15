@@ -5,3 +5,6 @@
 node_modules
 npm-debug.log
 app/bower_components
+
+# Ignore environment files
+/config.json
