@@ -1,16 +1,15 @@
 /* global require */
 /* global module */
-/* global console */
+/* global process */
 
 (function () {
-  // Log module status
-  console.info("Loading configuration module...");
 
   // Declare required modules
+  const Bunyan = require("bunyan");
   const Fs = require("fs");
   const Immutable = require("immutable");
 
-  // Define constants and prepare modules
+  // Define constants
   const DEFAULT_CONFIG_FILE_PATH = "./config-default.json";
   const CONFIG_FILE_PATH = "./config.json";
 
@@ -25,12 +24,31 @@
     result = Object.assign(defaultJson, configJson);
   }
 
-  // Make the configuration immutable
+  // Parse the stream objects
+  let streamsJson = result.logStreams;
+  result.logStreams = undefined;
+  let logStreams = [];
+  for (let i in streamsJson) {
+    let stream = streamsJson[i];
+    if (stream.stream) {
+      stream.stream = process[stream.stream];
+    }
+    logStreams.push(stream);
+  }
+  let createLogger = function (options) {
+    options = Object.assign({}, options);
+    options = Object.assign(options, {streams: logStreams});
+    return Bunyan.createLogger(options);
+  };
+
+  // Finalize the configuration
   result = Immutable.fromJS(result);
+  result.createLogger = createLogger;
 
   // Export the configuration
   module.exports = result;
 
   // Log module status
-  console.info("Loading configuration module... DONE");
+  let logger = result.createLogger({name: "config.js"});
+  logger.info("Loading configuration module.... DONE");
 }());

@@ -9,18 +9,20 @@
   },
   "dependencies": {
     "bower": "^1.8.0",
+    "bunyan": "^1.8.9",
     "express": "^4.15.2",
     "immutable": "^3.8.1"
   },
   "bin": {
     "bootlint": "node_modules/.bin/bootlint",
     "bower": "node_modules/.bin/bower",
+    "bunyan": "node_modules/.bin/bunyan",
     "eslint": "node_modules/.bin/eslint",
     "htmlhint": "node_modules/.bin/htmlhint"
   },
   "scripts": {
     "postinstall": "bower install",
     "test": "eslint . && htmlhint . && bootlint app/pay.html",
-    "start": "NODE_PATH=./ node server/server.js"
+    "start": "NODE_PATH=./ node server/server.js | bunyan"
   }
 }

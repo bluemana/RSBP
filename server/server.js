@@ -1,20 +1,25 @@
 /* global require */
-/* global console */
 
 // Declare required modules
+const Bunyan = require("bunyan");
+const Http = require("http");
 const Express = require("express");
 const Config = require("server/config");
 
 // Log module status
-console.info("Setting up the server...");
+let logger = Config.createLogger({
+  name: "server.js",
+  serializers: Bunyan.stdSerializers
+});
+logger.info("Setting up the server...");
 
 // Define the Express middleware
 let reqLogger = function (req, res, next) {
-  console.info("Received request: " + req.method + " " + req.protocol + "://" + req.hostname + req.path);
+  logger.info({req: req});
   next();
 };
 let errLogger = function (err, req, res, next) {
-  console.error(err.stack);
+  logger.error({err: err});
   next();
 };
 
@@ -29,16 +34,17 @@ app.use("/:username", Express.static("app", {
 }));
 app.use(errLogger);
 
-// Listen to requests
-let server = app.listen(Config.get("port"), function (err) {
-  if (!err) {
-    let host = server.address().address;
-    let port = server.address().port;
-    console.info("Server listening at http://" + host + ":" + port);
-  } else {
-    console.error("Cannot start the server: " + err);
-  }
+// Setup and start the HTTP server
+let server = Http.createServer(app);
+server.on("listening", function () {
+  let host = server.address().address;
+  let port = server.address().port;
+  logger.info({host: host, port: port}, "Server listening");
 });
+server.on("error", function (err) {
+  logger.error({err: err}, "HTTP server error");
+});
+server.listen(Config.get("port"));
 
 // Log module status
-console.info("Setting up the server... DONE");
+logger.info("Setting up the server... DONE");
