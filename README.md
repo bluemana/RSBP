@@ -39,3 +39,9 @@ To start the server:
 ```sh
 npm start
 ```
+
+## Configuration
+
+`config-default.json` is the default configuration file of the server. To override the default configuration create a file `config.json` and use the `config-default.json` for reference.
+
+With the default configuration, the public page of user `consensus-reality` can be accessed at `http://localhost:3000/consensus-reality/pay.html`.
