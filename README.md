@@ -22,18 +22,20 @@ https://www.youtube.com/watch?v=YMXKmTM_PKE
 
 ## Installation
 
-### Development ###
+To install `RSBP`:
 
 ```sh
 npm install
 ```
 
-This will install the linters used by `RSBP` and run `bower install`. You can then check the code against the style rules by running `npm run-script lint`.
-
-### Deployment ###
+To test `RSBP`:
 
 ```sh
-bower install
+npm test
 ```
 
-This will install the required client-side libraries in `app/bower_components`. You can then deploy the `app` folder according to your web server configuration.
+To start the server:
+
+```sh
+npm start
+```
